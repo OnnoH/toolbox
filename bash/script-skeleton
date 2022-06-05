@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+function usage() {
+  local MESSAGE=${1}
+  local SCRIPT_NAME=$(basename ${0})
+  echo -e "\n${SCRIPT_NAME} version 1.0.0 (20220606)"
+  echo -e "\nEchoes a message and creates an outputfile. Written for MacOS only. Requires git."
+  echo -e "Powered by Onno Huijgen"
+  echo -e "\n${MESSAGE}"
+  echo -e "\nUsage: ${SCRIPT_NAME} [--help|-h]"
+  echo -e "               [--output-file=<filespec>]"
+  echo -e "               [--quiet] [--dryrun] [--skip-hash]"
+  echo -e "\nE.g. ${SCRIPT_NAME} --output-file=${HOME}/my_report --quiet\n"
+  echo -e "h | help    : shows this explanation"
+  echo -e "output-file : report file"
+  echo -e "quiet       : suppress output (default: false)"
+  echo -e "dryrun      : skips the actual processing (default: false)"
+  echo -e "skip-hash   : do not generate file hashes (default: true)"
+  echo -e "\n"
+  exit 1
+}
+
+function init() {
+  SCRIPT_DIR=$(dirname ${0})
+  if [[ "${SCRIPT_DIR}" = "." ]]; then SCRIPT_DIR=$(pwd); fi
+  source ${SCRIPT_DIR}/env
+  source ${SCRIPT_DIR}/git-functions
+  source ${SCRIPT_DIR}/toolbox-functions
+
+  if [[ $(get_machine) != "Mac" ]]; then echo "This script is only suitable for Macs"; exit 1; fi
+  if [[ $(get_git_command) = "" ]]; then echo "Version control git not found. Unable to proceed."; exit 1; fi
+
+  QUIET=false
+  DRYRUN=false
+  OUTPUT_FILE=""
+  SKIP_HASH=false
+  GIT_USER_NAME=$(git config user.name)
+  GIT_USER_EMAIL=$(git config user.email)
+}
+
+function parse_params() {
+  local OPTCHAR
+  local NOCHAR="true"
+  local OPTSPEC=":h-:"
+  local NOARGS=true
+  while getopts "${OPTSPEC}" OPTCHAR; do
+    NOARGS=false
+    case "${OPTCHAR}" in
+      -)
+        case "${OPTARG}" in
+          help)
+            usage
+            ;;
+          output-file|output-file=*)
+            VAL="${!OPTIND}"
+            parse_parameter_value
+            OUTPUT_FILE=${VAL}
+            ;;
+          dryrun)
+            DRYRUN=true
+            ;;
+          quiet)
+            QUIET=true
+            ;;
+          skip-hash)
+            SKIP_HASH=true
+            ;;
+          *)
+            usage
+          esac;;
+      h)
+        usage
+        ;;
+      \?)
+        usage "Invalid option: -${OPTARG}"
+        ;;
+    esac
+  done
+  [[ "${NOARGS}" = "true" ]] && usage "No arguments specified."
+}
+
+function do_something() {
+  [[ "${QUIET}" != "true" ]] && echo "Hello World!"
+  touch ${OUTPUT_FILE}
+}
+
+# Main - execution starts here
+init
+parse_params "${@}"
+[[ "${DRYRUN}" = "true" ]] && echo "DRYRUN active: processing disabled."
+[[ "${QUIET}" != "true" ]] && echo "======= Commencing the proces at $(date +"%Y-%m-%d %H:%M:%S") ======="
+do_something
+[[ "${QUIET}" != "true" ]] && echo "======= Done at $(date +"%Y-%m-%d %H:%M:%S") ======="
+exit 0

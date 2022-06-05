@@ -1,0 +1,4 @@
+ORG=OnnoH
+PROJECT=Locutus
+BASE_URL_HTTPS="https://_PAT_@dev.azure.com/${ORG}/${PROJECT}/_git"
+BASE_URL_SSH="git@ssh.dev.azure.com:v3/${ORG}/${PROJECT}"

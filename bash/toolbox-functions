@@ -1,0 +1,25 @@
+function get_machine() {
+  PLATFORM="$(uname -s)"
+
+  case "${PLATFORM}" in
+      Linux*)  MACHINE="Linux";;
+      Darwin*) MACHINE="Mac";;
+      CYGWIN*) MACHINE="Cygwin";;
+      MINGW*)  MACHINE="MinGw";;
+      *)       MACHINE="UNKNOWN:${PLATFORM}"
+  esac
+
+  echo "${MACHINE}"
+
+}
+
+function parse_parameter_value() {
+  if [[ "${OPTARG#*=}" = "${OPTARG}" ]]
+  then
+    OPT=${OPTARG}
+    OPTIND=$(( ${OPTIND} + 1 ))
+  else
+    VAL=${OPTARG#*=}
+    OPT=${OPTARG%=$VAL}
+  fi
+}
