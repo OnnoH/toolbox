@@ -1,0 +1,82 @@
+MAIN_BRANCH=${MAIN_BRANCH-master}
+ORIGIN=${ORIGIN-origin}
+
+function get_git_command() {
+  GIT=$(which git)
+
+  echo "${GIT}"
+}
+
+function count_branches() {
+	return $(git branch -r | grep -v "${ORIGIN}/${MAIN_BRANCH}" | wc -l | sed 's/^ *//g')
+}
+
+function get_merged_branches() {
+	git branch -r --merged ${MAIN_BRANCH} | grep "${ORIGIN}/" | grep -v "${ORIGIN}/${MAIN_BRANCH}" | sort
+}
+
+function get_unmerged_branches() {
+	git branch -r --no-merged | grep -v HEAD | sort
+}
+
+function get_local_branches() {
+	git branch | grep -v "${ORIGIN}/" | grep -v "${MAIN_BRANCH}" | sort
+}
+
+function delete_remote_branch() {
+	BRANCH=${1}
+	git push origin --delete ${BRANCH}
+}
+
+function delete_local_branch() {
+	BRANCH=${1}
+	git branch --delete ${BRANCH}
+}
+
+function local_branch_exists() {
+  local BRANCH=${1}
+  local EXIST_LOCAL=$(git branch --list ${BRANCH})
+
+  if [[ -z ${EXIST_LOCAL} ]]; then
+      echo 0
+  else
+      echo 1
+  fi
+}
+
+function remote_branch_exists() {
+  local BRANCH=${1}
+  local EXIST_REMOTE=$(git ls-remote --heads origin ${BRANCH})
+
+  if [[ -z ${EXIST_REMOTE} ]]; then
+      echo 0
+  else
+      echo 1
+  fi
+}
+
+function local_branch_has_upstream() {
+  local BRANCH=${1}
+  local EXIST_UPSTREAM=$(git branch --list --format "%(upstream)" ${BRANCH})
+
+  if [[ -z ${EXIST_UPSTREAM} ]]; then
+      echo 0
+  else
+      echo 1
+  fi
+}
+
+function local_branch_is_merged() {
+  local BRANCH=${1}
+  local IS_MERGED=$(git branch --list --merged ${BRANCH})
+
+  if [[ -z ${IS_MERGED} ]]; then
+      echo 0
+  else
+      echo 1
+  fi
+}
+
+function filter_branches() {
+  grep -v "keep/"
+}
