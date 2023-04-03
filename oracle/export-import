@@ -1,0 +1,14 @@
+xcopy D:\app\oracle\product\18.0.0\oradata\XE D:\backup
+
+sqlplus @drop_ftr_indices.sql
+
+expdp SYSTEM/SYSTEM@//localhost/XEPDB1 SCHEMAS=APP_SCHEMA DIRECTORY=BACKUP DUMPFILE=EXPyyyymmdd.DMP LOGFILE=EXPyyyymmdd.LOG
+
+sqlplus @drop_app_user.sql
+
+impdp SYSTEM/SYSTEM@//localhost/XEPDB1 SCHEMAS=APP_SCHEMA DIRECTORY=BACKUP DUMPFILE=EXPyyyymmdd.DMP LOGFILE=IMPyyyymmdd.LOG
+
+sqlplus @system_grants.sql
+sqlplus @system_acl.sql
+sqlplus @recompile_invalid.sql
+sqlplus @recreate_ftr_indices.sql
