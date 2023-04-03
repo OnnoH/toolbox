@@ -1,0 +1,22 @@
+#!/bin/bash
+
+FILES="a.txt b.txt c.txt"
+for FILE in ${FILES}
+do
+  echo ${FILE}
+done
+
+for FILE in $(cat file-list)
+do
+  echo ${FILE}
+done
+
+for FILE in $(ls -1 /var/log)
+do
+  echo ${FILE}
+done
+
+find . -iname "foo*" | while read FILE
+do
+  echo ${FILE}
+done
