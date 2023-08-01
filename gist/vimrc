@@ -1,0 +1,4 @@
+# Handy vi settings -> save as .vimrc
+
+set mouse-=a
+syntax off
