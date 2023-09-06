@@ -7,6 +7,7 @@ python3 -m tkinter -c "tkinter._test()"
 ```
 
 On an M2 you'll probably see this
+
 ![TK Test Failing](images/tkinter/tk-wrong.png)
 
 Fortunately this [article](https://www.andrlik.org/dispatches/til-tkinter-on-m2-mac/) provides a guide to fix this. Just
