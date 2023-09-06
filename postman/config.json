@@ -1,0 +1,61 @@
+{
+  "clients": [
+    {
+      "name": "aad-dev-account",
+      "applicationId": "",
+      "objectId": ""
+    },
+    {
+      "name": "aad-tst-account",
+      "applicationId": "",
+      "objectId": ""
+    },
+    {
+      "name": "aad-prd-account",
+      "applicationId": "",
+      "objectId": ""
+    }
+  ],
+  "requests": [
+    {
+      "name": "Get Request",
+      "providers": [
+        {
+          "environment": "dev",
+          "id": "",
+          "server": "http://localhost:8080"
+        },
+        {
+          "environment": "tst",
+          "id": "",
+          "server": ""
+        },
+        {
+          "environment": "prd",
+          "id": "",
+          "server": ""
+        }
+      ]
+    },
+    {
+      "name": "Post Request",
+      "providers": [
+        {
+          "environment": "dev",
+          "id": "",
+          "server": "http://localhost:8080"
+        },
+        {
+          "environment": "tst",
+          "id": "",
+          "server": ""
+        },
+        {
+          "environment": "prd",
+          "id": "",
+          "server": ""
+        }
+      ]
+    }
+  ]
+}

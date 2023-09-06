@@ -1,0 +1,61 @@
+{
+	"info": {
+		"_postman_id": "c06ec69e-a205-4207-bf41-5679a2ba11ca",
+		"name": "Sample",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19329016"
+	},
+	"item": [
+		{
+			"name": "Sample",
+			"item": [
+				{
+					"name": "Get Request",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/getit",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"getit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Request",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{server}}/postit",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"postit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
