@@ -2,7 +2,7 @@
 
 In order to run Unix/Linux graphical user interfaces the X Window System is often used (X11 or X for short) : https://en.wikipedia.org/wiki/X_Window_System
 
-XQuartz is an X11 implementation that runs on Mac OS. I based th documentation on this [article](https://towardsdatascience.com/empowering-docker-using-tkinter-gui-bf076d9e4974) and [gist](https://gist.github.com/paul-krohn/e45f96181b1cf5e536325d1bdee6c949) I found.
+XQuartz is an X11 implementation that runs on Mac OS. The documentation is based on this [article](https://towardsdatascience.com/empowering-docker-using-tkinter-gui-bf076d9e4974) and [gist](https://gist.github.com/paul-krohn/e45f96181b1cf5e536325d1bdee6c949).
 
 ## Installation
 
