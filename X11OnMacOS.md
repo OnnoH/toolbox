@@ -67,7 +67,7 @@ DISPLAY=host.docker.internal:0
 docker run --rm --user $(id -u $USER):$(id -g $USER) \
            --env DISPLAY=$DISPLAY \
            --volume ./tkinter_test.py:/run_this.py
-           python_gui
+           python-gui
 ```
 
 And it works with Turtle Graphics too!
@@ -111,5 +111,5 @@ DISPLAY=host.docker.internal:0
 docker run --rm --user $(id -u $USER):$(id -g $USER) \
            --env DISPLAY=$DISPLAY \
            --volume ./starry_starry_night.py:/run_this.py
-           python_gui
+           python-gui
 ```
