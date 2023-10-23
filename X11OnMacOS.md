@@ -77,7 +77,7 @@ import turtle
 import random
 
 
-def stars():
+def star():
     for i in range(5):
         t.fd(10)
         t.right(144)
@@ -102,7 +102,7 @@ for i in range(100):
     t.up()
     t.goto(x, y)
     t.down()
-    stars()
+    star()
 ```
 
 ```shell
