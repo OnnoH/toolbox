@@ -22,7 +22,7 @@ XQuartz is an X11 implementation that runs on Mac OS. The documentation is based
 
 ## Sample Dockerfile
 
-A great way to demo this GUI capabilities is to use Python's `tkinter` library.
+A great way to demo these GUI capabilities is to use Python's `tkinter` library.
 
 ```Dockerfile
 FROM python:3.11.6-slim
