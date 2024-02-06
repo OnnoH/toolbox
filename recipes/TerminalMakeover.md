@@ -4,7 +4,7 @@
 
 To have a better developer experience and a smile on your face once you open up a command line terminal, a few things can be done to spicing it up. Follow the steps below and you might end up with something like
 
-![Sample of a prompt makeover](images/TerminalMakeover/Prompt.png "Sample of a prompt makeover")
+![Sample of a prompt makeover](../images/TerminalMakeover/Prompt.png "Sample of a prompt makeover")
 ￼
 The theme used in this HOW-TO is agnoster, the font Hack Nerd Font and the color scheme Solarized Dark.
 
@@ -64,7 +64,7 @@ Then activate them in Terminal, iTerm or whatever your favourite command line pl
 
 A screenshot to help you navigate…
 
-![Terminal Color Scheme Import and Font Settings](images/TerminalMakeover/Terminal.png "Terminal Color Scheme Import and Font Settings")
+![Terminal Color Scheme Import and Font Settings](../images/TerminalMakeover/Terminal.png "Terminal Color Scheme Import and Font Settings")
 
 ## iTerm
 
@@ -78,9 +78,9 @@ A screenshot to help you navigate…
 - Click on Color Presets and choose a color scheme
 
 Some screenshots to help you navigate…
-![iTerm2 Color Scheme Import](images/TerminalMakeover/iTerm2-1.png "iTerm2 Color Scheme Import")
+![iTerm2 Color Scheme Import](../images/TerminalMakeover/iTerm2-1.png "iTerm2 Color Scheme Import")
 
-![iTerm2 Font Settings](images/TerminalMakeover/iTerm2-2.png "iTerm2 Font Settings")
+![iTerm2 Font Settings](../images/TerminalMakeover/iTerm2-2.png "iTerm2 Font Settings")
 
 ￼
 

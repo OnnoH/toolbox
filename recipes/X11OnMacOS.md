@@ -10,7 +10,7 @@ XQuartz is an X11 implementation that runs on Mac OS. The documentation is based
 2. Launch XQuartz.
 3. Under the XQuartz menu, select Preferences.
 4. Go to the security tab and ensure "Allow connections from network clients" is checked.
-   ![XQuartz Security Settings](images/XQuartz/XQuartzSettings.png)
+   ![XQuartz Security Settings](../images/XQuartz/XQuartzSettings.png)
 5. Reboot.
 6. Test with `/usr/X11/bin/xeyes`.
 

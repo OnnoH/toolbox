@@ -8,7 +8,7 @@ python3 -m tkinter -c "tkinter._test()"
 
 On an M2 you'll probably see this
 
-![TK Test Failing](images/tkinter/tk-wrong.png)
+![TK Test Failing](../images/tkinter/tk-wrong.png)
 
 Fortunately this [article](https://www.andrlik.org/dispatches/til-tkinter-on-m2-mac/) provides a guide to fix this. Just
 enter the commands listed below. It assumes the presence of [Homebrew](https://brew.sh/) on your machine. It will install the [asdf](https://asdf-vm.com/) version manager and installs the specified version of [Python](https://devguide.python.org/versions/) with tk bundled.
@@ -24,4 +24,4 @@ enter the commands listed below. It assumes the presence of [Homebrew](https://b
 - asdf global python latest (more permanent, see `~/.tool-versions`)
 
 When succesful, test again with `python3 -m tkinter -c "tkinter._test()"` and hopefully this will be the result
-![TK Test Failing](images/tkinter/tk-right.png)
+![TK Test Failing](../images/tkinter/tk-right.png)
