@@ -93,7 +93,7 @@ ENV PATH=$PATH:/opt/mssql-tools/bin:/opt/sqlpackage
 
 and build it via `docker build -t my-mssql .`.
 
-If you're on a Silicon Mac the use of `sqlpackage` inside a container will probably end with a `Segmentation fault` which is not good.
+If you're on a Silicon Mac the use of `sqlpackage` inside a container will probably end with a `Segmentation fault` which is not good. No solution is available thus far, but the utility can be installed locally (see below).
 
 ## Export & Import
 
@@ -103,7 +103,7 @@ There are several ways to create those `.dacpac` and `.bacpac` files. One of the
 
 Instead of using the utility from the container you can also install it locally on your [Mac](https://learn.microsoft.com/en-gb/sql/tools/sqlpackage/sqlpackage-download?view=sql-server-ver16#macos).
 
-Note the `sudo spctl --master-disable` and  command. The package contains a lot of unsigned `.dll` files. You can of course authorise them one by one via *System Settings* but that's not recommended ;-)
+Note the `sudo spctl --master-disable` command. The package contains a lot of unsigned `.dll` files. You can of course authorise them one by one via *System Settings* but that's not recommended ;-)
 
 Be sure to run a couple of `sqlpackage` commands before turning the security back on with `sudo spctl --master-enable`.
 
