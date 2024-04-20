@@ -52,10 +52,10 @@ look for the `APFS Volume VM`
 
 ![Screenshot Terminal Window](../images/Catch22/diskutil-output.png)
 
-and
+and after
 
 ```shell
 diskutil apfs deleteVolume disk3s6
 ```
 
-allowed me to remove the files freeing up the needed space. After a restart, I could login again. Phew! :-)
+the system allowed me to remove files, freeing up the needed space. After a restart, I could login again. Phew! :-)
