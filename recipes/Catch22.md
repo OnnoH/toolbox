@@ -22,7 +22,7 @@ When on 1GB fiber, this runs very smooth. Just paste the URL and press enter. A 
 
 I left those scripts unattended, but when I looked at the result I saw some errors. Luckily those download scripts are resilient, so you can pick up where you left off.
 
-But the damage was already done. Within minutes my 1TB disk was swamped by huge files. Just delete them, would you say. I thought the same:
+But the damage was already done. Within minutes my 1TB disk was swamped by huge files. Just delete them, you would say. I thought the same:
 
 ```shell
 $ rm -rf llama2
@@ -42,11 +42,14 @@ Selecting the 'startup' disk with the shift-key pressed to continue to safe mode
 
 After a couple of retries, I hadn't make any progress. Lot's of articles on the web made suggestions, but to no avail. Until I stumbled on this [page](https://eduardo-pinheiro.medium.com/your-mac-doesnt-restart-due-to-no-space-left-on-device-27adf777619d).
 
-It covered an earlier version of MacOS, but the 
+It covered an earlier version of MacOS, but the *DiskUtility* and *Terminal* were available. With the first one you can check if the `Data` disk is unmounted. Open up a terminal window and execute the following commands:
 
 ```shell
 diskutil list
 ```
+
+look for the `APFS Volume VM`
+
 ![Screenshot Terminal Window](../images/Catch22/diskutil-output.png)
 
 and
