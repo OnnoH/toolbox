@@ -4,6 +4,7 @@ Various scripts and samples to make dev life somewhat easier
 ### Recipes
 HOW-TOs on various subjects:
 
+* [Catch22-no space left on device](recipes/Catch22.md)
 * [Java on MacOS](recipes/JavaOnMacOS.md)
 * [Mac terminals Makeover](recipes/TerminalMakeover.md)
 * [Microsoft SQL Server on MacOS using Docker](recipes/MSSQLOnMacOSDocker.md)
