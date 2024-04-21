@@ -62,7 +62,7 @@ It covered an earlier version of MacOS, but the aforementioned *Disk Utility* an
 diskutil list
 ```
 
-look for the `APFS Volume VM`
+look for the `APFS Volume VM`. This volume is unencrypted and is used by macOS for storing encrypted swap files.
 
 ![Screenshot Terminal Window](../images/Catch22/diskutil-output.png)
 
@@ -72,9 +72,9 @@ and after
 diskutil apfs deleteVolume disk3s6
 ```
 
-the system allowed me to remove files, freeing up the needed space. After a restart, I could login again. Phew! :-)
+Deleting the *swap volume* in recovery mode doesn't do any harm and it's recreated on reboot. After deletion, there was enough free space, so the system finally allowed me to remove files. After a restart, I could login again. Phew! :-)
 
 #### APFS explained
 
 * https://en.wikipedia.org/wiki/Apple_File_System
-* https://www.howtogeek.com/327328/apfs-explained-what-you-need-to-know-apples-new-file-system/
+* https://support.apple.com/en-gb/guide/security/seca6147599e/web
