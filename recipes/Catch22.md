@@ -66,7 +66,7 @@ look for the `APFS Volume VM`. This volume is unencrypted and is used by macOS f
 
 ![Screenshot Terminal Window](../images/Catch22/diskutil-output.png)
 
-and after
+then
 
 ```shell
 diskutil apfs deleteVolume disk3s6
