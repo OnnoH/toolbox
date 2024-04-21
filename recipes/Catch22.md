@@ -2,15 +2,7 @@
 
 https://www.merriam-webster.com/dictionary/catch-22
 
-1. : a problematic situation for which the only solution is denied by a circumstance inherent in the problem or by a rule
-the show-business catch-22—no work unless you have an agent, no agent unless you've worked
-—Mary Murphy
-also : the circumstance or rule that denies a solution
-2.
-    1. : an illogical, unreasonable, or senseless situation
-    2. : a measure or policy whose effect is the opposite of what was intended
-    3. : a situation presenting two equally undesirable alternatives
-3. : a hidden difficulty or means of entrapment : CATCH
+> no space left on device => remove files to free up space => no space left on device
 
 ## What happened?
 
@@ -18,9 +10,29 @@ I wanted to start an adventure with machine learning. For that I had my eye on M
 
 Easy as pie. Just sign up and you get an e-mail message with the appropriate links. Use a `download.sh` script from the specified GitHub repo and run it.
 
-When on 1GB fiber, this runs very smooth. Just paste the URL and press enter. A mistake as it turns out. Little did I know about the size :-(.
+When on 1GB fiber, this runs very smooth. Just paste the URL and press enter (the default will trigger the download of all available models). A mistake as it turns out. Little did I know about the size :-(.
 
-I left those scripts unattended, but when I looked at the result I saw some errors. Luckily those download scripts are resilient, so you can pick up where you left off.
+E.g. `du -h -d 2` gives you an idea about it.
+
+```text
+132G	./llama3/Meta-Llama-3-70B
+ 15G	./llama3/Meta-Llama-3-8B-Instruct
+132G	./llama3/Meta-Llama-3-70B-Instruct
+ 15G	./llama3/Meta-Llama-3-8B
+724K	./llama3/.git
+ 44K	./llama3/llama
+293G	./llama3
+636K	./PurpleLlama/Llama-Guard
+8.0K	./PurpleLlama/.github
+ 52M	./PurpleLlama/CybersecurityBenchmarks
+ 12M	./PurpleLlama/.git
+ 15G	./PurpleLlama/Llama-Guard2
+1.2M	./PurpleLlama/CodeShield
+ 15G	./PurpleLlama
+308G	.
+```
+
+So downloading all Meta AI models is not a good idea if you lack storage capacity. I ran the downloads in parallel and left them unattended. But when I looked at the result I saw some errors. Luckily those download scripts are resilient, so you can pick up where you left off.
 
 But the damage was already done. Within minutes my 1TB disk was swamped by huge files. Just delete them, you would say. I thought the same:
 
@@ -30,7 +42,7 @@ $ rm -rf llama2
 no space left on device
 ```
 
-So I rebooted and wanted to log back in. Alas! The progress bar starts, but stops just as fast. This must how a cardiac arrest must feel like...
+So I rebooted and wanted to log back in. Alas! The progress bar starts, but stops just as fast. I stopped breathing for a few seconds...
 
 ## ???
 
@@ -40,9 +52,11 @@ Selecting the 'startup' disk with the shift-key pressed to continue to safe mode
 
 ![Screenshot MacOS Recovery Screen](../images/Catch22/macos-recovery-mode-startup-options.jpg)
 
-After a couple of retries, I hadn't make any progress. Lot's of articles on the web made suggestions, but to no avail. Until I stumbled on this [page](https://eduardo-pinheiro.medium.com/your-mac-doesnt-restart-due-to-no-space-left-on-device-27adf777619d).
+After a couple of retries, I hadn't made any progress. Lot's of articles on the web made suggestions, but to no avail. Everything I tried within the *Terminal* failed. The *Disk Utility* has an option to show *APFS Snapshots*, but deleting them also fails.
 
-It covered an earlier version of MacOS, but the *DiskUtility* and *Terminal* were available. With the first one you can check if the `Data` disk is unmounted. Open up a terminal window and execute the following commands:
+Until I stumbled on this [page](https://eduardo-pinheiro.medium.com/your-mac-doesnt-restart-due-to-no-space-left-on-device-27adf777619d).
+
+It covered an earlier version of MacOS, but the aforementioned *Disk Utility* and *Terminal* were available. With the first one you check if the `Data` disk is unmounted. Then open up a terminal window and execute the following commands:
 
 ```shell
 diskutil list
@@ -59,3 +73,8 @@ diskutil apfs deleteVolume disk3s6
 ```
 
 the system allowed me to remove files, freeing up the needed space. After a restart, I could login again. Phew! :-)
+
+#### APFS explained
+
+* https://en.wikipedia.org/wiki/Apple_File_System
+* https://www.howtogeek.com/327328/apfs-explained-what-you-need-to-know-apples-new-file-system/
