@@ -1,0 +1,11 @@
+# Array with expressions
+cities=("New York" "London" "Paris" "Munich" "Tokio" "Sydney" "Amsterdam")
+
+# Seed random generator
+RANDOM=$$$(date +%s)
+
+for i in {1..10}
+do
+    selected_city=${cities[ $RANDOM % ${#cities[@]} ]}
+    echo $selected_city
+done
