@@ -58,7 +58,7 @@ pip3.12 install -r requirements.txt
 
 ### ODBC
 
-What is [ODBC](https://learn.microsoft.com/en-us/sql/odbc/reference/what-is-odbc?view=sql-server-ver15)
+What is [ODBC](https://learn.microsoft.com/en-us/sql/odbc/reference/what-is-odbc?view=sql-server-ver15)?
 
 For Linux and Mac there's a package available.
 ```shell
@@ -302,7 +302,7 @@ query ActiveCustomers {
 
 and press play ..eh.. run.
 
-DAB is highly configurable and that requires a recipe in itself. The configuration above only scratches the surface.
+DAB is highly configurable and that requires a recipe in itself. The configuration generated above only scratches the surface.
 
 ## TODO
 
