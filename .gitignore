@@ -24,3 +24,7 @@ hs_err_pid*
 
 # Mac OS
 .DS_Store
+
+# Python
+venv
+*.pyc

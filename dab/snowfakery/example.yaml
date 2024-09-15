@@ -1,0 +1,25 @@
+- snowfakery_version: 3
+- var: snowfakery_locale
+  value: nl_NL
+- plugin: faker_addons.Provider
+- plugin: random_string.RandomString
+- object: customer
+  count: '100'
+  fields:
+    NAME:
+      RandomString.random_string:
+        length: 200
+        fixed: false
+        case: CAPITALISE
+    ADDRESS:
+      RandomString.random_string:
+        length: 200
+        fixed: false
+        case: UPPER
+    PHONE:
+      RandomString.random_string:
+        length: 200
+        fixed: false
+        case: NUMBERS
+    ACTIVE:
+      fake: yes_no

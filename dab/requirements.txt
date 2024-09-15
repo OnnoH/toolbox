@@ -1,0 +1,5 @@
+setuptools==74.1.2
+pyodbc==5.1.0
+snowfakery==3.6.3
+sqlalchemy==2.0.29
+ruamel.yaml==0.18.6
