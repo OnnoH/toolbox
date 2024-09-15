@@ -8,6 +8,7 @@ HOW-TOs on various subjects:
 * [Java on MacOS](recipes/JavaOnMacOS.md)
 * [Mac terminals Makeover](recipes/TerminalMakeover.md)
 * [Microsoft SQL Server on MacOS using Docker](recipes/MSSQLOnMacOSDocker.md)
+* [Data API Builder](recipes/DataApiBuilder.md)
 * [OpenVPN server on a Raspberry Pi using Docker](recipes/OpenVPNServerOnRaspberryPi.md)
 * [Port 5000 is in use on MacOS](recipes/Port5000IsInUseOnMacOS.md)
 * [Python's `tkint` on a Silicon Mac](recipes/PythonTKinterOnMacM2.md)
