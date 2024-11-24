@@ -48,3 +48,5 @@ zip -er your-client-name.zip your-client-name.ovpn
 ```
 
 - Distribute the zip to the 'client' and send the passphrase in a separate channel.
+
+> To access your VPN server from outside your home, configure NAT (or Port Forwarding) on your router and specify port 1194 and the (static) IP address of your VPN server. Then use the configured VPN client to connect, either by IP address or domain name.
