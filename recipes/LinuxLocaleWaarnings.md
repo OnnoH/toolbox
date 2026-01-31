@@ -108,4 +108,10 @@ Host *
   SetEnv LC_ALL=en_GB.utf8 LC_CTYPE=en_GB.utf8
 ```
 
-Of course, set the name of your favourite locale or the one mentioned in the warning.
+Of course, set the name of your favourite locale or the one mentioned in the warning. Setting it locally is also quite easy. Just add the following lines to your `.bashrc` file in your home directory.
+
+```shell
+export LANG=en_GB.UTF-8
+export LC_ALL=en_GB.UTF-8
+export LC_CTYPE=en_GB.utf8
+```
