@@ -14,6 +14,7 @@ Or in a different language (e.g. Dutch) see voices.txt
 
 ```shell
 say -o welkom.aiff --voice=Xander welkom thuis
+```
 
 And playback the file
 
