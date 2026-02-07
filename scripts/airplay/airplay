@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# airplay - Discover AirPlay devices via Bonjour, switch via system UI
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DISCOVER_SCRIPT="$SCRIPT_DIR/discover_airplay.sh"
+SWITCH_SCRIPT="$SCRIPT_DIR/switch_audio_device.applescript"
+
+function show_help {
+    echo "Usage: airplay <command> [arguments]"
+    echo ""
+    echo "Commands:"
+    echo "  discover           Discover AirPlay devices in the background (Bonjour, no UI)."
+    echo "  list               Alias for discover."
+    echo "  switch <name>      Switch to a device (uses Sound menu UI; partial name allowed)."
+    echo "  help               Show this help message."
+    echo ""
+    echo "Discovery runs in the background via Bonjour (_airplay._tcp, _raop._tcp)."
+    echo "Switch uses the system Sound output menu to change the active device."
+    echo ""
+    echo "Examples:"
+    echo "  airplay list"
+    echo "  airplay discover"
+    echo "  airplay switch HomePod"
+}
+
+if [ "$#" -eq 0 ]; then
+    show_help
+    exit 1
+fi
+
+COMMAND="$1"
+shift
+
+case "$COMMAND" in
+    list|discover)
+        "$DISCOVER_SCRIPT"
+        ;;
+    switch)
+        if [ "$#" -eq 0 ]; then
+            echo "Error: Please specify a device name."
+            echo "Usage: airplay switch <name>"
+            exit 1
+        fi
+        DEVICE_NAME="$*"
+        osascript "$SWITCH_SCRIPT" "$DEVICE_NAME"
+        ;;
+    help|--help|-h)
+        show_help
+        ;;
+    *)
+        echo "Unknown command: $COMMAND"
+        show_help
+        exit 1
+        ;;
+esac
