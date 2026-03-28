@@ -16,6 +16,7 @@ HOW-TOs on various subjects:
 - [OpenVPN server on a Raspberry Pi using Docker](recipes/OpenVPNServerOnRaspberryPi.md)
 - [Port 5000 is in use on MacOS](recipes/Port5000IsInUseOnMacOS.md)
 - [Python's `tkint` on a Silicon Mac](recipes/PythonTKinterOnMacM2.md)
+- [Run Python script as a service](recipes/RunPythonScriptAsAService.md)
 - [Virtual Machines on MacOS](recipes/VirtualMachinesOnMacOS.md)
 - [X11 on MacOS](recipes/X11OnMacOS.md)
 - [Yarn on MacOS](recipes/YarnOnMacOS.md)
