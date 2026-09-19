@@ -70,8 +70,19 @@ or watch the logs
 sudo journalctl -f -u some.service
 ```
 
-and stop it when done ;-)
+and stop it when done
 
 ```shell
-sudo systemctl start some.service
+sudo systemctl stop some.service
+```
+
+or remove it all-together
+
+```shell
+sudo systemctl stop some.service
+sudo systemctl disable some.service
+sudo systemctl daemon-reload
+sudo rm /usr/lib/systemd/system/some.service
+sudo rm /lib/systemd/system/some.service
+sudo systemctl reset-failed
 ```
