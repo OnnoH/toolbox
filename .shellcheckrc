@@ -1,0 +1,7 @@
+# ShellCheck settings for this toolbox.
+#
+# Most files under bash/ and python/ are snippets and function libraries that
+# are meant to be sourced or copy-pasted, not run as standalone programs.
+# SC2034 ("variable appears unused") fires on every variable such a file
+# defines for its caller, so it is off repo-wide.
+disable=SC2034

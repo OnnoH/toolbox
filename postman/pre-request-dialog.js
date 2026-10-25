@@ -13,7 +13,7 @@ if (pm.environment.get("client_application_name") || pm.environment.get("client_
                 pm.environment.set("client_secret", form_data.client_secret)
             }
             catch (exception) {
-                throw new Error("Unable to parse parameter form.")
+                throw new Error("Unable to parse parameter form: " + exception.message)
             }
         }
     });

@@ -1,0 +1,154 @@
+# Checks for the toolbox.
+#
+# The toolbox is a grab-bag of standalone scripts and notes, so there is no
+# shared build and no single entry point: every language gets its own lint job
+# and every job fails on its own without taking the others down with it.
+name: checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GITLEAKS_VERSION: 8.30.1
+  GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+  RUFF_VERSION: 0.16.10
+  ESLINT_VERSION: 10.13.0
+
+jobs:
+  # AC-1: shell scripts and snippets.
+  lint-bash:
+    name: lint bash (shellcheck)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Collect shell files
+        id: collect
+        run: |
+          # Everything under bash/ and python/ (those "python" files are pip
+          # one-liners for the shell), every *.sh, and anything else with a
+          # shell shebang. oracle/ is left out: the files there are terminal
+          # transcripts with the "$ " prompt still in them, not scripts.
+          {
+            git ls-files -z -- 'bash/*' 'python/*' '*.sh'
+            git grep -lzI -E '^#!.*[/ ](bash|sh)$' -- .
+          } | tr '\0' '\n' | grep -v '^oracle/' | sort -u > shell-files.txt
+          echo "Files to check:"
+          cat shell-files.txt
+
+      - name: shellcheck
+        run: |
+          # --shell=bash: the sourced libraries and snippets carry no shebang.
+          # Severity "warning" and up; see .shellcheckrc for what is disabled.
+          xargs -a shell-files.txt shellcheck --severity=warning --shell=bash
+
+  # AC-1: Python (dab/, postman/).
+  lint-python:
+    name: lint python (ruff)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "ruff==${RUFF_VERSION}"
+      - name: ruff
+        run: ruff check --output-format=github .
+
+  # AC-1: JavaScript (postman/*.js, run inside Postman's sandbox).
+  lint-javascript:
+    name: lint javascript (eslint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: eslint
+        # The repo keeps no package.json: eslint.config.mjs needs no plugins,
+        # so npx fetches the pinned ESLint and nothing else.
+        run: npx --yes "eslint@${ESLINT_VERSION}" .
+
+  # AC-2: secrets, in the tree and in the history.
+  secret-scan:
+    name: secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks
+        run: |
+          curl -sSfL -o gitleaks.tar.gz \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          echo "${GITLEAKS_SHA256}  gitleaks.tar.gz" | sha256sum --check --strict
+          tar xzf gitleaks.tar.gz gitleaks
+          ./gitleaks version
+
+      - name: Scan the working tree
+        run: ./gitleaks dir . --redact --no-banner
+
+      - name: Scan the history
+        run: ./gitleaks git . --redact --no-banner
+
+  # AC-3: the one dependency manifest in the repo.
+  dependency-audit:
+    name: dependency audit (pip-audit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          # recipes/DataApiBuilder.md installs dab/ on Python 3.12.
+          python-version: "3.12"
+      - run: pip install pip-audit
+      # One pip-audit run per manifest: the two are separate environments and
+      # resolving them together fails on dependency conflicts that nobody has.
+      - name: pip-audit dab/requirements.txt
+        run: |
+          # snowfakery 3.6.3 pins its own dependencies to exact, old versions
+          # (jinja2 3.1.3, requests 2.29.0, urllib3 1.26.18, certifi, idna),
+          # and nothing in this repo can move them: the fix is to upgrade
+          # snowfakery itself, which changes the recipe format and the plugin
+          # API. Until that is done these advisories are known debt. Delete
+          # this list together with the upgrade - a test checks that it goes.
+          ignored=(
+            PYSEC-2024-230  PYSEC-2026-4320                   # certifi
+            PYSEC-2026-215                                    # idna
+            PYSEC-2026-1471 PYSEC-2026-1472 PYSEC-2026-1474 PYSEC-2026-1475  # jinja2
+            PYSEC-2023-74   PYSEC-2026-1872 PYSEC-2026-1873 PYSEC-2026-2275  # requests
+            PYSEC-2026-141  PYSEC-2026-1994 PYSEC-2026-1995 PYSEC-2026-1996
+            PYSEC-2026-1998 PYSEC-2026-1999 PYSEC-2026-4175 PYSEC-2026-4177  # urllib3
+          )
+          pip-audit --progress-spinner=off \
+            --requirement dab/requirements.txt \
+            "${ignored[@]/#/--ignore-vuln=}"
+      - name: pip-audit tests/requirements.txt
+        if: ${{ !cancelled() }}
+        run: pip-audit --progress-spinner=off --requirement tests/requirements.txt
+
+  # The acceptance criteria of ONN-8 themselves, as tests.
+  ci-contract:
+    name: ci contract tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: pip install -r tests/requirements.txt "ruff==${RUFF_VERSION}"
+      - name: pytest
+        run: pytest tests -v

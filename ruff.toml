@@ -1,0 +1,11 @@
+# Ruff settings for the Python files in this toolbox (python/, dab/, postman/).
+#
+# The rule set is pinned so a new Ruff release cannot turn a green build red:
+# pyflakes (F) plus the pycodestyle errors that point at real defects
+# (E4 imports, E7 statements, E9 syntax/IO). Style and opinionated rules are
+# deliberately out - this repo is a collection of standalone snippets, not one
+# code base with one house style.
+target-version = "py310"
+
+[lint]
+select = ["E4", "E7", "E9", "F"]

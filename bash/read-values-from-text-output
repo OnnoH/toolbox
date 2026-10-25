@@ -11,6 +11,8 @@ do
   echo ${FILE}
 done
 
+# This file shows the ways to read values, the fragile ones included.
+# shellcheck disable=SC2045
 for FILE in $(ls -1 /var/log)
 do
   echo ${FILE}

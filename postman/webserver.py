@@ -1,8 +1,6 @@
 import json
-import time
 import http.server
 import socketserver
-import _thread as thread
 from tkinter import Tk, BOTH, X, LEFT
 from tkinter.ttk import Frame, Label, Entry, Button
 
