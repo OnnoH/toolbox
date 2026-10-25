@@ -112,13 +112,13 @@ jobs:
           # recipes/DataApiBuilder.md installs dab/ on Python 3.12.
           python-version: "3.12"
       - run: pip install pip-audit
-      - name: pip-audit every requirements file
-        # dab/ is the only language folder with a manifest; tests/ pins the
-        # tools this workflow itself runs.
-        run: |
-          pip-audit --progress-spinner=off \
-            --requirement dab/requirements.txt \
-            --requirement tests/requirements.txt
+      # One pip-audit run per manifest: the two are separate environments and
+      # resolving them together fails on dependency conflicts that nobody has.
+      - name: pip-audit dab/requirements.txt
+        run: pip-audit --progress-spinner=off --requirement dab/requirements.txt
+      - name: pip-audit tests/requirements.txt
+        if: ${{ !cancelled() }}
+        run: pip-audit --progress-spinner=off --requirement tests/requirements.txt
 
   # The acceptance criteria of ONN-8 themselves, as tests.
   ci-contract:
