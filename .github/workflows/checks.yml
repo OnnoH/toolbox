@@ -115,7 +115,24 @@ jobs:
       # One pip-audit run per manifest: the two are separate environments and
       # resolving them together fails on dependency conflicts that nobody has.
       - name: pip-audit dab/requirements.txt
-        run: pip-audit --progress-spinner=off --requirement dab/requirements.txt
+        run: |
+          # snowfakery 3.6.3 pins its own dependencies to exact, old versions
+          # (jinja2 3.1.3, requests 2.29.0, urllib3 1.26.18, certifi, idna),
+          # and nothing in this repo can move them: the fix is to upgrade
+          # snowfakery itself, which changes the recipe format and the plugin
+          # API. Until that is done these advisories are known debt. Delete
+          # this list together with the upgrade - a test checks that it goes.
+          ignored=(
+            PYSEC-2024-230  PYSEC-2026-4320                   # certifi
+            PYSEC-2026-215                                    # idna
+            PYSEC-2026-1471 PYSEC-2026-1472 PYSEC-2026-1474 PYSEC-2026-1475  # jinja2
+            PYSEC-2023-74   PYSEC-2026-1872 PYSEC-2026-1873 PYSEC-2026-2275  # requests
+            PYSEC-2026-141  PYSEC-2026-1994 PYSEC-2026-1995 PYSEC-2026-1996
+            PYSEC-2026-1998 PYSEC-2026-1999 PYSEC-2026-4175 PYSEC-2026-4177  # urllib3
+          )
+          pip-audit --progress-spinner=off \
+            --requirement dab/requirements.txt \
+            "${ignored[@]/#/--ignore-vuln=}"
       - name: pip-audit tests/requirements.txt
         if: ${{ !cancelled() }}
         run: pip-audit --progress-spinner=off --requirement tests/requirements.txt

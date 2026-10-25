@@ -212,6 +212,24 @@ def test_ac3_dab_requirements_are_pinned(jobs):
     assert not unpinned, f"AC-3: an audit needs exact versions: {unpinned}"
 
 
+def test_ac3_ignored_advisories_are_snowfakery_debt_only(jobs):
+    """The ignore list exists only because snowfakery 3.x pins old packages.
+
+    It may not outlive that pin: once snowfakery moves, the list has to go,
+    or the audit would quietly keep passing over real advisories.
+    """
+    script = job_script(jobs["dependency-audit"])
+    requirements = (REPO / "dab" / "requirements.txt").read_text()
+    pinned_to_snowfakery_3 = "snowfakery==3." in requirements
+    if not pinned_to_snowfakery_3:
+        assert "--ignore-vuln" not in script, (
+            "AC-3: snowfakery moved, so drop the ignored advisories"
+        )
+    # Ignoring whole packages or every advisory is not what this is for.
+    assert "--ignore-vuln=*" not in script
+    assert "--ignore" not in script.replace("--ignore-vuln", "")
+
+
 def test_ac3_no_other_language_folder_has_a_manifest():
     """The reason the audit is Python-only. Add a job when this one fails."""
     others = sorted(

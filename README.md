@@ -67,3 +67,7 @@ pip install -r tests/requirements.txt && pytest tests
 
 `tests/` holds no tests of the scripts themselves; it checks that the workflow
 keeps doing the above.
+
+The audit of `dab/requirements.txt` ignores a list of advisories that
+`snowfakery==3.6.3` brings in through its own exact pins; upgrading snowfakery
+is the fix, and the list goes with it.
