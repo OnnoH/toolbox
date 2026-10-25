@@ -115,24 +115,7 @@ jobs:
       # One pip-audit run per manifest: the two are separate environments and
       # resolving them together fails on dependency conflicts that nobody has.
       - name: pip-audit dab/requirements.txt
-        run: |
-          # snowfakery 3.6.3 pins its own dependencies to exact, old versions
-          # (jinja2 3.1.3, requests 2.29.0, urllib3 1.26.18, certifi, idna),
-          # and nothing in this repo can move them: the fix is to upgrade
-          # snowfakery itself, which changes the recipe format and the plugin
-          # API. Until that is done these advisories are known debt. Delete
-          # this list together with the upgrade - a test checks that it goes.
-          ignored=(
-            PYSEC-2024-230  PYSEC-2026-4320                   # certifi
-            PYSEC-2026-215                                    # idna
-            PYSEC-2026-1471 PYSEC-2026-1472 PYSEC-2026-1474 PYSEC-2026-1475  # jinja2
-            PYSEC-2023-74   PYSEC-2026-1872 PYSEC-2026-1873 PYSEC-2026-2275  # requests
-            PYSEC-2026-141  PYSEC-2026-1994 PYSEC-2026-1995 PYSEC-2026-1996
-            PYSEC-2026-1998 PYSEC-2026-1999 PYSEC-2026-4175 PYSEC-2026-4177  # urllib3
-          )
-          pip-audit --progress-spinner=off \
-            --requirement dab/requirements.txt \
-            "${ignored[@]/#/--ignore-vuln=}"
+        run: pip-audit --progress-spinner=off --requirement dab/requirements.txt
       - name: pip-audit tests/requirements.txt
         if: ${{ !cancelled() }}
         run: pip-audit --progress-spinner=off --requirement tests/requirements.txt
@@ -151,4 +134,21 @@ jobs:
           node-version: "22"
       - run: pip install -r tests/requirements.txt "ruff==${RUFF_VERSION}"
       - name: pytest
-        run: pytest tests -v
+        # test_dab_recipe.py needs dab/requirements.txt; dab-recipe runs it.
+        run: pytest tests -v --ignore=tests/test_dab_recipe.py
+
+  # AC-2 of ONN-10: the Snowfakery recipe and its two plugins still run on the
+  # versions dab/requirements.txt pins. Its own job because it is the only one
+  # that installs dab/, which pip-audit above only resolves.
+  dab-recipe:
+    name: dab snowfakery recipe
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          # recipes/DataApiBuilder.md installs dab/ on Python 3.12.
+          python-version: "3.12"
+      - run: pip install -r dab/requirements.txt -r tests/requirements.txt
+      - name: pytest
+        run: pytest tests/test_dab_recipe.py -v

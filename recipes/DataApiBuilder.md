@@ -199,13 +199,17 @@ E.g.
 python3.12 generate_sf_yaml.py sales.customer 100 customer.yaml
 ```
 
-Then start Snowfakery with that YAML and let it output a CSV.
+Then start Snowfakery with that YAML and let it output a CSV. Use
+`run_recipe.py` rather than the `snowfakery` command: the command imports
+`pkg_resources` (only to check PyPI for a newer release), which setuptools
+dropped in 82.0.0, and no older setuptools is free of advisories. The runner
+calls the library directly and puts `plugins/` on the path for you.
 
 ```shell
-snowfakery customer.yaml --output-format=csv
+python3.12 run_recipe.py customer.yaml --output-format=csv
 
 # or use the example from this repository
-snowfakery snowfakery/example.yaml --output-format=csv
+python3.12 run_recipe.py snowfakery/example.yaml --output-format=csv
 
 ```
 
