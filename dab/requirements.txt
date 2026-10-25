@@ -1,4 +1,4 @@
-setuptools==74.1.2
+setuptools==84.2.1
 pyodbc==5.1.0
 snowfakery==3.6.3
 sqlalchemy==2.0.29

@@ -40,3 +40,30 @@ Scripts and HOW-TOs
 ### Postman
 
 Collection of scripts, utilities and workspaces.
+
+## Checks
+
+There is no shared build here, so every language is checked on its own by
+[`.github/workflows/checks.yml`](.github/workflows/checks.yml), on every push
+and pull request:
+
+| Check | Tool | Settings |
+| --- | --- | --- |
+| shell scripts and snippets | `shellcheck --severity=warning` | [`.shellcheckrc`](.shellcheckrc) |
+| Python | `ruff check` | [`ruff.toml`](ruff.toml) |
+| JavaScript | `eslint` | [`eslint.config.mjs`](eslint.config.mjs) |
+| secrets, tree and history | `gitleaks` | defaults |
+| Python dependencies | `pip-audit` | `dab/requirements.txt`, `tests/requirements.txt` |
+
+To run them before pushing:
+
+```shell
+shellcheck --severity=warning --shell=bash bash/* python/* **/*.sh
+pip install ruff pip-audit && ruff check . && pip-audit -r dab/requirements.txt
+npx --yes eslint .
+gitleaks dir . && gitleaks git .
+pip install -r tests/requirements.txt && pytest tests
+```
+
+`tests/` holds no tests of the scripts themselves; it checks that the workflow
+keeps doing the above.

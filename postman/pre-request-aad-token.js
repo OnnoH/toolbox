@@ -65,13 +65,13 @@ pm.sendRequest("http://localhost:8000/config.json", (error, response) => {
                             pm.environment.set("token_expires_on", expires_on)
                             pm.environment.set("token", body.token_type + " " + body.access_token)
                         } catch(exception) {
-                            throw new Error("Unable to parse token.")
+                            throw new Error("Unable to parse token: " + exception.message)
                         }
                     }
                 })
             }
         } catch(exception) {
-            throw new Error("Unable to parse Kong configuration.")
+            throw new Error("Unable to parse Kong configuration: " + exception.message)
         }
     }
 })
